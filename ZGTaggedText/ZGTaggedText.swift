@@ -18,15 +18,14 @@ extension String {
      - Parameter taggedFont: An optional `UIFont` value to set font attribute of the tagged substring(s).
      - Parameter unTaggedFont: An optional `UIFont` value to set the font attribute of the untagged substring(s).
      
-     - Throws: An error of type `ZGTaggedTextError`
-     
-     - Returns: A `NSMutableAttributedString`, which contains the specified font modifications made to the tagged text.
+     - Returns: An optional `NSMutableAttributedString`, which contains the specified font modifications made to the tagged text.
      */
-    func modifyFontWithTags(openingTag: String, closingTag: String, taggedFont: UIFont?, unTaggedFont: UIFont?) throws -> NSMutableAttributedString {
-        if self.isEmpty { throw ZGTaggedTextError.EmptyText }
-        if !self.contains(openingTag) { throw ZGTaggedTextError.NoOpeningTag }
-        if !self.contains(closingTag) { throw ZGTaggedTextError.NoClosingTag }
-        guard let taggedTextFont = taggedFont, let untaggedTextFont = unTaggedFont else { throw ZGTaggedTextError.InvalidFont }
+    func modifyFontWithTags(openingTag: String, closingTag: String, taggedFont: UIFont?, unTaggedFont: UIFont?) -> NSMutableAttributedString? {
+        guard let taggedTextFont = taggedFont,
+            let untaggedTextFont = unTaggedFont,
+            !self.isEmpty,
+            self.contains(openingTag),
+            self.contains(closingTag) else { return nil }
         
         let closingTagSplitArray = self.components(separatedBy: closingTag)
         var allTagsSplitArray = [String]()
@@ -44,29 +43,5 @@ extension String {
         }
         
         return finalAttrStr
-    }
-}
-
-
-// MARK: Error Handling
-enum ZGTaggedTextError: Error {
-    case EmptyText
-    case NoOpeningTag
-    case NoClosingTag
-    case InvalidFont
-}
-
-extension ZGTaggedTextError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .EmptyText:
-            return "ZGTaggedText ERROR: The input text contained no characters."
-        case .NoOpeningTag:
-            return "ZGTaggedText ERROR: The input text must contain at least one Opening Tag."
-        case .NoClosingTag:
-            return "ZGTaggedText ERROR: The input text must contain at least one Closing Tag."
-        case .InvalidFont:
-            return "ZGTaggedText ERROR: The UIFont passed into the function was 'nil'. Make sure the font exists within your project."
-        }
     }
 }
