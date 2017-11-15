@@ -11,6 +11,6 @@ By using ZGTaggedText, all you have to do is put tags around the specific parts 
     let tagFont = UIFont(name: "Chalkduster", size: 18.0)
     let normalFont = UIFont(name: "Helvetica Neue", size: 10.0)
     
-    textLabel.attributedText = try! taggedTextString.modifyFontWithTags(openingTag: "<tag>", closingTag: "</tag>", taggedFont: tagFont, unTaggedFont: normalFont)
+    textLabel.attributedText = taggedTextString.modifyFontWithTags(openingTag: "<tag>", closingTag: "</tag>", taggedFont: tagFont, unTaggedFont: normalFont)
     
 ![Modified Text](http://i.imgur.com/B918EXl.png "Modified Text Example")
