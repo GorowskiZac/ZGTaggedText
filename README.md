@@ -1,4 +1,4 @@
-# ZGTaggedText
+# ZGTaggedText  <sub><sup>`[DEPRECATED]` `[STALE]`</sup></sub>
 Enables simple font modification of specific substrings with the use of marker tags.
 
 ## The Problem
